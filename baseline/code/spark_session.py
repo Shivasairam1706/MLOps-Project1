@@ -1,5 +1,7 @@
-from pyspark import SparkSession
-import loggin.config
+import findspark
+findspark.init()  # Initialize Spark
+from pyspark.sql import SparkSession
+import logging.config
 
 
 logging.config.fileConfig('logging.config')

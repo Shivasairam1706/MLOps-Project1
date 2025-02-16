@@ -1,5 +1,4 @@
 # to ingest the file data into target/Sink
-
 import logging
 import logging.config
 
@@ -7,17 +6,17 @@ logging.config.fileConfig('logging.config')
 logger = logging.getLogger('ingest')
 logger.setLevel(logging.DEBUG)
 
-def  ingest_data(spark,file_path,file_format,header,inferschema):
+def ingest_data(in_spark,in_file_path,in_file_format,in_header,in_inferschema):
     try :
         logger.warning('File loading has started...')
         
-        if file_format == 'parquet':
-            df = spark.read.format(file_format).load(file_path)
+        if in_file_format == 'parquet':
+            out_df = in_spark.read.format(in_file_format).load(in_file_path)
         
-        elif file_format == 'csv' :
-            df = spark.read.format(file_format).option(header = header,inferschema = inferschema).load(file_path)
+        elif in_file_format == 'csv' :
+            out_df = in_spark.read.format(in_file_format).option('header', in_header).option('inferSchema', in_inferschema).load(in_file_path)
         # Displays the count of the newly loaded dataframe
-        logger.warning('Total no.of records loaded into dataframe from file : ',df.count())
+        logger.warning('Total no.of records loaded into dataframe from file: {}'.format(out_df.count()))
     
     except Exception as exc :
         logger.warning('An error occured at ingest process... ===> ', str(exc))
@@ -26,7 +25,6 @@ def  ingest_data(spark,file_path,file_format,header,inferschema):
     else :
         logger.warning('Ingest process completed and DataFrame (df) created successfully...\U0001f600')
     
-    return df
-
+    return out_df
 
 

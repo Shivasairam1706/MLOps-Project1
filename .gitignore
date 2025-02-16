@@ -3,3 +3,5 @@ prep_main.py
 test.ipynb
 data/
 application.log
+.ipynb_checkpoints/
+.Trash-1000/

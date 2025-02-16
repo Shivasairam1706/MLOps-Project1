@@ -6,15 +6,13 @@ logging.config.fileConfig('logging.config')
 logger = logging.getLogger('ingest')
 logger.setLevel(logging.DEBUG)
 
-def ingest_data(in_spark,in_file_path,in_file_format,in_header,in_inferschema):
+def ingest_data(in_spark,in_file_path,in_file_format,in_header,in_schema):
     try :
         logger.warning('File loading has started...')
-        
-        if in_file_format == 'parquet':
-            out_df = in_spark.read.format(in_file_format).load(in_file_path)
-        
-        elif in_file_format == 'csv' :
-            out_df = in_spark.read.format(in_file_format).option('header', in_header).option('inferSchema', in_inferschema).load(in_file_path)
+        if in_schema == 'True':
+            out_df = in_spark.read.format(in_file_format).option('header', in_header).option('inferSchema', in_schema).load(in_file_path)
+        else:
+            out_df = in_spark.read.format(in_file_format).option('header', in_header).schema(in_schema).load(in_file_path)
         # Displays the count of the newly loaded dataframe
         logger.warning('Total no.of records loaded into dataframe from file: {}'.format(out_df.count()))
     

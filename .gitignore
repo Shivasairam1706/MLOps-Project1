@@ -1,11 +1,5 @@
 __pycache__/
-env_var.py
-ingest.py
-logging.config
 prep_main.py
-main.py
-spark_session.py
 test.ipynb
-validate.py
-btc_1h_data_2018_to_2025.csv
-btc_15m_data_2018_to_2025.csv
+data/
+application.log

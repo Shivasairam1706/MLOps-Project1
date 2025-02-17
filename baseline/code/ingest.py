@@ -25,4 +25,6 @@ def ingest_data(in_spark,in_file_path,in_file_format,in_header,in_schema):
     
     return out_df
 
+def batch_split(in_spark,in_df):
+    try
 

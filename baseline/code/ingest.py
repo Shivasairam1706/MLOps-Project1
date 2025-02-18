@@ -12,7 +12,7 @@ def ingest_data(in_spark,in_file_path,in_file_format,in_header,in_schema):
         if in_schema == 'True':
             out_df = in_spark.read.format(in_file_format).option('header', in_header).option('inferSchema', in_schema).load(in_file_path)
         else:
-            out_df = in_spark.read.format(in_file_format).option('header', in_header).schema(in_schema).load(in_file_path)
+            out_df = in_spark.read.format(in_file_format).load(in_file_path)
         # Displays the count of the newly loaded dataframe
         logger.warning('Total no.of records loaded into dataframe from file: {}'.format(out_df.count()))
     
@@ -24,7 +24,4 @@ def ingest_data(in_spark,in_file_path,in_file_format,in_header,in_schema):
         logger.warning('Ingest process completed and DataFrame (df) created successfully...\U0001f600')
     
     return out_df
-
-def batch_split(in_spark,in_df):
-    try
 

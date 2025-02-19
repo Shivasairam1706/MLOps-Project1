@@ -18,20 +18,10 @@ act_path = os.getcwd()[:os.getcwd().rfind('/')]
 # Creating path to the source files...
 src_path = act_path + '/data'
 
-bitcoin_col = {"Open time" : ("open_tm", TimestampType()),
-"Open" : ("open", FloatType()),
-"High" : ("high", FloatType()),
-"Low" : ("low", FloatType()),
-"Close" : ("close", FloatType()),
-"Volume" : ("vol", FloatType()),
-"Close time" : ("close_tm", TimestampType()),
-"Quote asset volume" : ("quote_asset_vol", FloatType()),
-"Number of trades" : ("no_of_trades", IntegerType()),
-"Taker buy base asset volume" : ("taker_buy_base_asset_vol", FloatType()),
-"Taker buy quote asset volume" : ("taker_buy_quote_asset_vol", FloatType()),
-"Ignore" : ("ignore", IntegerType())
-}
+# gobal variable to check the environment
+Environments = ('DEV','SIT','UAT')
 
+# Dataframe Schema as a dictionary - "orignial name": ("new name","data type")
 new_cols = {"Open time" : ("open_tm", "Timestamp"),
 "Open" : ("open", "Float"),
 "High" : ("high", "Float"),

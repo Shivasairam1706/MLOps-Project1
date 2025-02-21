@@ -32,7 +32,8 @@ def get_src_path(in_path, in_file_type):
     except Exception as err:
         logger.error('An error occurred while retrieving the path and file names ===> %s', str(err)) #use placeholders
         raise #re-raise the exception after logging.
-    logging.warning(f"Path information has been read successfully of {out_file_format}")
+    else:
+        logging.warning(f"Path information has been read successfully of {out_file_format}")
     return out_file_format, out_header, out_inferschema, out_path_file
 
 
@@ -44,8 +45,7 @@ def ingest_data(in_spark, in_file_path, in_file_format, in_header, in_schema):
         in_file_format (str): The format of the file ('parquet' or 'csv').
         in_header (str): Whether the file has a header ('True' or 'False').
         in_schema (str): Whether to infer the schema ('True' or 'False').
-    Returns:DataFrame: The loaded Spark DataFrame.
-    """
+    Returns:DataFrame: The loaded Spark DataFrame."""
     try:
         logger.warning('File loading has started...')
         if in_schema == 'True':

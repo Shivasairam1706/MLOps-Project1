@@ -4,6 +4,10 @@ pandas
 matplotlib
 scikit-learn
 
+# Storage
+delta # Python client for Delta Lake
+delta-spark #  integration between Spark and Delta Lake
+
 # pre-processing
 pyspark
 findspark # Helpful utility for working with PySpark in notebooks

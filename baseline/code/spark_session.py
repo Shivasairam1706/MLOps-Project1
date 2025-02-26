@@ -1,6 +1,7 @@
 import findspark
 findspark.init()  # Initialize Spark
 from pyspark.sql import SparkSession
+from delta import configure_spark_with_delta_pip
 import logging.config
 import validate
 import env_var
@@ -10,8 +11,7 @@ logging.config.fileConfig('logging.config')
 logger = logging.getLogger('spark_session')
 logger.setLevel(logging.DEBUG)
 
-
-def get_spark_object(in_env, in_appName):
+def get_spark_object(in_env: str, in_appName: str):
     """Creates a SparkSession based on the environment.
     Args:
         in_env (str): The environment (e.g., "local", "prod").
@@ -25,14 +25,16 @@ def get_spark_object(in_env, in_appName):
         else:
             master = 'yarn'  # Corrected to lowercase 'yarn'
         logger.info('master is {}'.format(master))
-        spark = SparkSession.builder.master(master).appName(in_appName).getOrCreate()
+        #spark = SparkSession.builder.master(master).appName(in_appName).config("spark.sql.extensions", "io.delta.sql.DeltaSparkSessionExtension").config("spark.sql.catalog.spark_catalog", "org.apache.spark.sql.delta.catalog.DeltaCatalog").config("spark.jars.packages", "io.delta:delta-core_2.12:2.4.0").getOrCreate()
+        
+        builder = SparkSession.builder.master(master).appName(in_appName).config("spark.sql.extensions", "io.delta.sql.DeltaSparkSessionExtension").config("spark.sql.catalog.spark_catalog", "org.apache.spark.sql.delta.catalog.DeltaCatalog")
+        spark = configure_spark_with_delta_pip(builder).getOrCreate()
     except Exception as exp:
         logger.error('An error occurred in get_spark_object method... please check ===> %s', str(exp))
         raise
     else:
         logger.info('Spark session/object created successfully...')
     return spark
-
 
 def create_spark_session():
     """Creates and validates a SparkSession.

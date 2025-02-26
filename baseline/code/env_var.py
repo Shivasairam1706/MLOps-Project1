@@ -1,37 +1,43 @@
 import os
 from pyspark.sql.types import *
 
+# Set environment variables
 os.environ['env'] = 'DEV'
 os.environ['header'] = 'True'
 os.environ['inferSchema'] = 'True'
 
-header = os.environ['header']
-inferSchema = os.environ['inferSchema']
-env = os.environ['env']
+# Read environment variables
+header = os.getenv('header', 'True')
+inferSchema = os.getenv('inferSchema', 'True')
+env = os.getenv('env', 'DEV')
 
-# App_Name for Spark Enviroment/Session...
-appName = 'MLOp-project'
+# App name for Spark environment/session
+appName = 'MLOps-project'
 
-# To get the currect working directory...
-act_path = os.getcwd()[:os.getcwd().rfind('/')]
+# Get the current working directory
+act_path = os.path.dirname(os.getcwd())
 
-# Creating path to the source files...
-src_path = act_path + '/data'
+# Creating path to the source files
+src_path = os.path.join(act_path, 'data')
 
-# gobal variable to check the environment
-Environments = ('DEV','SIT','UAT')
+# Pre-processed data path
+prep_path = os.path.join(src_path, 'prep_data/')
 
-# Dataframe Schema as a dictionary - "orignial name": ("new name","data type")
-new_cols = {"Open time" : ("open_tm", "Timestamp"),
-"Open" : ("open", "Float"),
-"High" : ("high", "Float"),
-"Low" : ("low", "Float"),
-"Close" : ("close", "Float"),
-"Volume" : ("vol", "Float"),
-"Close time" : ("close_tm", "Timestamp"),
-"Quote asset volume" : ("quote_asset_vol", "Float"),
-"Number of trades" : ("no_of_trades", "Integer"),
-"Taker buy base asset volume" : ("taker_buy_base_asset_vol", "Float"),
-"Taker buy quote asset volume" : ("taker_buy_quote_asset_vol", "Float"),
-"Ignore" : ("ignore", "Integer")
+# Global variable to check the environment
+Environments = ('DEV', 'SIT', 'UAT')
+
+# Dataframe schema as a dictionary - "original name": ("new name", "data type")
+bitcoin_cols = {
+    "Open time": ("open_tm", TimestampType()),
+    "Open": ("open", DoubleType()),
+    "High": ("high", DoubleType()),
+    "Low": ("low", DoubleType()),
+    "Close": ("close", DoubleType()),
+    "Volume": ("vol", DoubleType()),
+    "Close time": ("close_tm", TimestampType()),
+    "Quote asset volume": ("quote_asset_vol", FloatType()),
+    "Number of trades": ("no_of_trades", IntegerType()),
+    "Taker buy base asset volume": ("taker_buy_base_asset_vol", FloatType()),
+    "Taker buy quote asset volume": ("taker_buy_quote_asset_vol", FloatType()),
+    "Ignore": ("ignore", IntegerType())
 }
